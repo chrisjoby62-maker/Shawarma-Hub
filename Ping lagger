@@ -1,6 +1,6 @@
 -- Shawarma Ping Lagger (New GUI)
 -- Features: LOW/MED/HIGH · Strength presets · Auto Brainrot · UI Scale · Keybinds · Auto-save
--- + Head Tag: leak by Demi
+-- + Head Tag: SHAWARMA HUB ON TOP
 
 local UserInputService = game:GetService("UserInputService")
 local TweenService     = game:GetService("TweenService")
