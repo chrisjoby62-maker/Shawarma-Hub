@@ -1,6 +1,6 @@
---Shawarma  Ping Lagger (New GUI)
+-- Shawarma Ping Lagger (New GUI)
 -- Features: LOW/MED/HIGH · Strength presets · Auto Brainrot · UI Scale · Keybinds · Auto-save
--- + Head Tag: discord.gg/FnwfCSdDj
+-- + Head Tag: leak by Demi
 
 local UserInputService = game:GetService("UserInputService")
 local TweenService     = game:GetService("TweenService")
@@ -11,11 +11,11 @@ local RunService       = game:GetService("RunService")
 local plr = Players.LocalPlayer
 local plrGui = plr:WaitForChild("PlayerGui", 10)
 if not plrGui then
-	warn("[Galaxy] PlayerGui not found")
+	warn("[Shawarma] PlayerGui not found")
 	return
 end
 
-local CONFIG_FILE =ShawarmaPingLagger _Config.json"
+local CONFIG_FILE = "ShawarmaPingLagger_Config.json"
 
 -- Strength presets → power
 local STRENGTHS = {
@@ -1257,4 +1257,4 @@ plr.CharacterAdded:Connect(function(char)
 	attachHeadTag(char)
 end)
 
-print("[Galaxy] Head Tag aktiviert: leak by Demi + " .. TAG_TEXT_2)
+print("[Shawarma] Head Tag aktiviert: leak by Demi + " .. TAG_TEXT_2)
