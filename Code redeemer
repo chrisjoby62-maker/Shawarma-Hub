@@ -1,0 +1,1187 @@
+--- deobfuscation by bunnyirsh/z8ov.
+--- deobfuscation by bunnyirsh/z8ov.
+--- deobfuscation by bunnyirsh/z8ov.
+--- deobfuscation by bunnyirsh/z8ov.
+--- deobfuscation by bunnyirsh/z8ov.
+
+
+--[[
+  UPDATE 70 · HALLOWEEN  —  respuestas nuevas + 3 arreglos
+  + FUSE MACHINE (2025/2026) y HAUNTED FUSE (wiki)
+  + MERGED: RiddleDatabase external (Aetherion Auto Code Redeemer)
+]]
+
+local solveRiddle
+do
+	local SYNONYMS = {
+		fav = "favorite", favourite = "favorite", faves = "favorite", favorites = "favorite",
+		colour = "color", colours = "color", colors = "color",
+	}
+	local ORDINALS, NUMBER_WORDS = {}, { one = 1, two = 2, three = 3, four = 4, five = 5, six = 6, seven = 7, eight = 8, nine = 9, ten = 10 }
+	for i, w in ipairs({ "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
+		"eleventh", "twelfth", "thirteenth", "fourteenth", "fifteenth", "sixteenth", "seventeenth", "eighteenth",
+		"nineteenth", "twentieth" }) do ORDINALS[w] = i end
+	local LAST_WORDS = { last = true, latest = true, newest = true, final = true, new = true, newer = true, recent = true }
+
+	local MACHINES = {
+		"RAINBOWMACHINE", "BUBBLEGUMMACHINE", "FUSEMACHINE", "CRAFTMACHINE", "WITCHFUSE",
+		"BRAINROTDEALER", "BRAINROTTRADER", "SANTASFUSE", "SANTASSHOP", "NEWYEARSMACHINE",
+		"DUELSMACHINE", "CUPIDSMACHINE", "TRADEMACHINE", "DIVINEFUSE", "EGGINCUBATOR",
+		"CYBERCRAFTMACHINE", "SUMMERFUSE", "LOSTRADERS", "HAUNTEDFUSE" }
+
+	local MUTATIONS = { "GOLD", "DIAMOND", "RAINBOW", "BLOODROT", "CANDY", "LAVA", "GALAXY",
+		"YINYANG", "RADIOACTIVE", "CURSED", "DIVINE", "CYBER", "PHANTOM", "CRYSTAL", "ECLIPSE" }
+
+	local LIMITED = {}
+	for i = 4, #MUTATIONS do LIMITED[#LIMITED + 1] = MUTATIONS[i] end
+	local SEQUENCES = { machine = MACHINES, mutation = LIMITED, trait = { "LIGHTNING" } }
+
+	local function tokenize(text)
+		text = tostring(text or ""):lower()
+		text = text:gsub("\226\128\153", "'"):gsub("`", "'"):gsub("'", "")
+		text = text:gsub("[^%w%s]", " ")
+		local t = {}
+		for w in text:gmatch("%S+") do t[#t + 1] = SYNONYMS[w] or w end
+		return t
+	end
+
+	local INDEX, KEYS = {}, {}
+	local function fact(answer, aliases)
+		local f = { answer = answer }
+		for alias in aliases:gmatch("[^|]+") do
+			local toks = tokenize(alias)
+			local key = table.concat(toks, " ")
+			if not INDEX[key] then
+				INDEX[key] = f
+				KEYS[#KEYS + 1] = { key = key, fact = f }
+			end
+		end
+	end
+	local function evaluate(f)
+		if type(f.answer) == "function" then return f.answer() end
+		return f.answer
+	end
+
+	local function lastMutation() return MUTATIONS[#MUTATIONS] end
+
+	-- ==================== FACTS ORIGINALES ====================
+	fact("SAMMY", "creator|creator name|creator real name|owner|owner real name|real name|name|my name|what is my name|whats my name|my real name|sammy real name|sammys real name|who created sab|who is the owner|who made sab|who owns sab")
+	fact(function()
+		local d = os.date("*t")
+		return tostring(d.year - 2002 - (d.month < 2 and 1 or 0))
+	end, "age|my age|how old am i|how old is sammy|sammy age")
+	fact("SPYDERSAMMY", "username|my username|my roblox username|roblox name|roblox username|sammy roblox name|sammy username|my youtube|sammy youtube|youtube channel")
+	fact("YOUTUBE", "social media")
+	fact("NOVA", "my cats name|what is my cats name")
+	fact("FRIDAY", "birth day|birthday|born on|day born|day i was born|created on|day sab was made|day sab was released|game created on|game creation day|game made on|sab made on|sab release day")
+	fact("FEBRUARY", "birth month|month born|month i was born")
+	fact("2002", "birth year|born year|year born|year i was born")
+	fact("ALGERIA", "birthplace|where i was born|where was i born|where was i born at")
+	fact("SAOPAULO", "city|my city|sammy city|state|my state|sammy state")
+	fact("BRAZIL", "country|my country|sammy country|sammy location|where am i from|where do i live|where does sammy live|where is sammy from")
+	fact("BRAZILIAN", "nationality|my nationality|sammy nationality")
+	fact("BLUE", "color|color is blue|favorite color|favorite color is blue|my color|my color is blue|sammy color|sammy color is blue")
+	fact("PIZZA", "favorite food|food|my food")
+	fact("FOOTBALL", "favorite football player|favorite player|favorite sport|football player|my sport|sport|ronaldo")
+	fact("SPIDER", "favorite animal|my animal|my pet")
+	fact("ROBLOX", "favorite game")
+	fact("67", "67|funny number|special number")
+	fact("STEALABRAINROT", "full name|game name|name of the game|sab|sab stands for")
+	fact("MAY162025", "date made|game release|game release date|game released|release date|sab release|sab released|when made|when was sab created|when was sab made|when was sab released")
+	fact("MAY", "release month|month sab was made|sab release month")
+	fact("2025", "release year|year created|year made|year of sab|year sab was created|year sab was made")
+	fact(function() return tostring(os.date("%Y")) end, "year we are on|year were on")
+	fact("COMMON", "common rarity|lowest rarity")
+	fact("OG", "highest rarity|rarest rarity|top rarity")
+	fact("HEADLESSHORSEMAN", "rarest|rarest brainrot|headless horseman")
+	fact("HEADLESSHORSEMAN", "best brainrot|unobtainable")
+	fact("DIVINE", "angelic|angelic mutation|divine mutation|good mutation|turns yellow|yellow|yellow mutation")
+	fact("GALAXY", "purple|purple mutation|turns black|turns purple")
+	fact("YINYANG", "yin yang|yinyang|yin yang mutation|black and white|black and white mutation|turns black and white")
+	fact("CURSED", "cursed mutation|evil|evil mutation|red|red mutation|turns red")
+	fact("RADIOACTIVE", "green|green mutation|turns green")
+	fact("RADIOACTIVE", "first mutation with texture|first texture mutation|first seasonal mutation")
+	fact("DISCO", "scrapped mutation|mutation scrapped after divine|disco")
+	fact("FROST", "mutation scrapped after phantom|frost")
+	fact("RUSTYNICKLE40", "who suggested cyber|cyber idea|cyber suggested by|who proposed cyber")
+	fact("CURSED", "spawned by accident instead of divine|accidentally spawned instead of divine")
+	fact("GOLD", "first mutation added|first mutations added|first mutation in the game|first mutation ever|original mutation")
+	fact("DIAMOND", "second mutation added|second mutation in the game")
+	fact("ECLIPSE", "highest multiplier|biggest multiplier|best multiplier|highest multi")
+	fact("GOLD", "lowest mutation multiplier|lowest multiplier|smallest multiplier|most common mutation|common mutation")
+	fact("DIAMOND", "second most common mutation")
+	fact("BLOODROT", "first limited mutation|first limited event|first event mutation")
+	fact("LAVA", "molten|molten mutation|orange|orange mutation|turns orange")
+	fact("LIGHTNING", "lightning|lightning trait|struck by lightning|trait from lightning|first trait created")
+	fact(lastMutation, "best mutation|top mutation|strongest mutation|most powerful mutation|highest mutation")
+	fact(lastMutation, "most recent|most recent mutation|newest mutation|latest mutation")
+	fact("ECLIPSE", "eclipse|eclipse mutation|celestial|celestial mutation|black and yellow|black and yellow mutation|turns black and yellow|sun mutation|bright sun")
+	fact("CRYSTAL", "crystal|crystal mutation|purple and blue|turns purple and blue")
+	fact("PHANTOM", "phantom|phantom mutation|ghost mutation|transparent black|flashing black")
+	fact("FESTIVE67", "festive 67|festive67|festive sixty seven")
+	fact("BOPPINBUNNY", "boppin bunny|boppin")
+	fact("CYBER", "cyber mutation|black and blue|turns black and blue")
+	fact("CANDY", "candy mutation|pink|pink mutation|turns pink")
+	fact("BLOODROT", "bloodrot|bloodrot mutation|dark red")
+	fact("REAPERBASE", "new base|newest base|latest base|last base|new robux base|robux base|new base with robux|new base i added|base i added|new base for robux|newest robux base")
+	fact("PLANTBROS", "best brainrot in the new machine|best brainrot in the last machine|best brainrot in the latest machine|best brainrot in the newest machine|new machine best brainrot|last machine best brainrot")
+
+	-- ==================== RULES ====================
+	local RULES = {}
+	local function rule(answer, ...)
+		local groups = {}
+		for _, g in ipairs({ ... }) do
+			local set = {}
+			for w in g:gmatch("[^|]+") do set[w] = true end
+			groups[#groups + 1] = set
+		end
+		RULES[#RULES + 1] = { answer = answer, groups = groups }
+	end
+
+	local NEWW = "new|newest|latest|last|recent|newer|newly"
+
+	rule("PHOENIX", "best|top|highest|rarest|strongest|richest", "brainrot|brainrots|secret", NEWW .. "|haunted|19th|nineteenth", "machine|fuse")
+	rule("PHOENIX", "best|top|highest|rarest|strongest|richest", "brainrot|brainrots|secret", "machine|machines|fuse")
+
+	-- ================= UPDATE 70 · HALLOWEEN (wiki) =================
+	local DRAGON_ANSWER = "DRAGONSKELETONINI"
+
+	local BESTW = "best|top|highest|rarest|strongest|richest|biggest|greatest"
+	local WORSTW = "worst|lowest|weakest|poorest|least|smallest|cheapest|common"
+	local BRAINW = "brainrot|brainrots|secret|secrets"
+	local BLOCKW = "block|blocks"
+
+	rule(DRAGON_ANSWER, NEWW, "dragon|dragons")
+	rule(DRAGON_ANSWER, "extinct", "dragon|dragons")
+	rule("SKULLLUCKYBLOCK", NEWW .. "|second|halloween", "lucky", BLOCKW)
+	rule("500M", "skull", "lucky", BLOCKW, "cost|costs|price|buy")
+	rule("SKULL", "skull|halloween", "lucky", BLOCKW, "rarity|rare")
+	rule(DRAGON_ANSWER, BESTW, BRAINW, "lucky", BLOCKW)
+	rule("CANDICORNI", WORSTW, BRAINW, "lucky", BLOCKW)
+	rule(DRAGON_ANSWER, "6th|sixth", "reskin", "cannelloni|dragon")
+	rule(DRAGON_ANSWER, "resembles|resemble|similar|resemblance|like", "vulturino|skeletono")
+	rule(DRAGON_ANSWER, "first|1st", "extinct", "theme|themed|after|event")
+	rule(DRAGON_ANSWER, "first|1st", "dragon", "lucky", BLOCKW)
+	rule("ORCHIDOX", "surpass|surpasses|surpassed|surpassing|beats|beat|replaced", "lucky", BLOCKW)
+	rule("13", "months|month", "extinct", "event", "after|since|later|added")
+	rule("FLYINGDUTCHMAN", "captain|captains", "dutchman|flying|folklore")
+	rule("NETHERLANDS", "dutchman|flying", "from|origin|folklore|country|nation|where")
+
+	local LUCKY_RANKING = {
+		DRAGON_ANSWER, "FLYINGDUTCHMAN", "BOOBOOROCKET", "BATINTHEBOX",
+		"BANANITOSKELITO", "ZOMBIEBOWL", "GRIMCHEESE", "CANDICORNI",
+	}
+	local BLOCK_WORDS = { lucky = true, block = true, blocks = true, skull = true }
+
+	-- ============ FUSE MACHINE (2025/2026) + HAUNTED FUSE ============
+	local unpack_ = table.unpack or unpack
+
+	local MACH    = "machine|machines"
+	local REL     = "released|release|added|made|came|out|introduced|created|launched|start|started"
+	local REMW    = "removed|remove|removal|deleted|ended|gone"
+	local RETW    = "returned|return|back|comeback|readded|reintroduced|rereleased|brought"
+	local REPLW   = "replaced|replace|replaces|replacing|replacement"
+	local NEXTW   = "next|after|followed|following|successor"
+	local PREVW   = "previous|before|prior|preceded|predecessor"
+	local F25     = "first|1st|original|2025|old|initial|earliest"
+	local F26     = "second|2nd|2026|returned|return|comeback|readded|back"
+	local INCOMEW = "income|make|makes|earn|earns|generate|generates|production"
+	local CHANCEW = "chance|percent|percentage|odds|probability"
+
+	local function eventRules(mon, day, yr, wd, ...)
+		rule(mon .. day .. yr, "month", "day", "year", ...)
+		rule(mon .. yr, "month", "year", ...)
+		rule(day .. yr, "day", "year", ...)
+		rule(day, "day", ...)
+		rule(mon .. day, "month", "day", ...)
+		rule(mon, "month", ...)
+		rule(yr, "year", ...)
+		rule(wd, "day", "week|weekday", ...)
+		rule(mon .. day .. yr, "date|when", ...)
+	end
+
+	local function keyedRule(answer, tail, ...)
+		local groups = { ... }
+		groups[#groups + 1] = tail
+		rule(answer, unpack_(groups))
+	end
+
+	eventRules("OCTOBER", "8", "2026", "THURSDAY", "leaked|leak|revealed", "model|finished", "skeletonini|dragon")
+	eventRules("OCTOBER", "3", "2026", "SATURDAY", "haunted", "fuse", REL)
+	rule("CRAFTMACHINE", "haunted", "fuse", REPLW .. "|" .. PREVW .. "|last")
+	rule("17", "haunted", "fuse", "how", "many", BRAINW)
+	rule("JUMPFOREGGS", "haunted", "fuse", "last|previous|before|prior|preceded", "event|ltm")
+	rule("LOSTREATERS", "haunted", "fuse", "lowest|worst|weakest|cheapest|least", "secret|secrets|brainrot|brainrots")
+
+	eventRules("AUGUST", "1", "2025", "FRIDAY", "fuse", MACH, F25, REL)
+	eventRules("SEPTEMBER", "6", "2025", "SATURDAY", "fuse", MACH, F25, REMW)
+	eventRules("JANUARY", "24", "2026", "SATURDAY", "fuse", MACH, RETW)
+
+	rule("4", "fuse", MACH, "how", "many", "brainrot|brainrots", "put|place|need|needed|required|require|start|insert|input")
+
+	rule("BUBBLEGUMMACHINE", "fuse", MACH, F25, PREVW)
+	rule("DUELSMACHINE", "fuse", MACH, F26, PREVW)
+	rule("CRAFTMACHINE", "fuse", MACH, F25, NEXTW .. "|" .. REPLW)
+	rule("CUPIDSMACHINE", "fuse", MACH, F26, NEXTW)
+	rule("DIVINEFUSE", "fuse", MACH, F26, REPLW)
+
+	rule("LASUPREMECOMBINASION", "fuse", MACH, F25, "best|top|highest|rarest|strongest|richest", "brainrot|brainrots|secret|secrets")
+	rule("HYDRADRAGONCANNELLONI", "fuse", MACH, F26, "best|top|highest|rarest|strongest|richest", "brainrot|brainrots|secret|secrets")
+	rule("PIPICORNI", "fuse", MACH, "lowest|worst|weakest|cheapest|least|common", "brainrot|brainrots")
+
+	rule("KETUPATBROS", "ginger|gerat|kepat", "combination|special|combo|fuse|fusing|fused|made|get|gets|obtain|result|combine|combined|create|created|mix|mixed|into")
+	rule("LOSSWEETHEARTS", "tralaleritos|tralaleritas|hotspot|heart", "combination|special|combo|fuse|fusing|fused|made|get|gets|obtain|result|combine|combined|create|created|mix|mixed|into")
+
+	rule("REAPERBASE", NEWW, "base|bases")
+	rule("REAPERBASE", "robux", "base|bases")
+
+	rule(function() return tostring(#MACHINES) end, "how", "many", "machines|machine")
+
+	local FIRST = "first|1st|1|one|original|initial|earliest"
+	local SECOND = "second|2nd|2|two"
+	local PAID = "dlc|plush|plushie|plushies|merch|money|usd|website"
+	local BRAIN = "brainrot|brainrots|secret"
+
+	rule("FESTIVE67", FIRST, PAID, BRAIN)
+	rule("FESTIVE67", FIRST, "plush|plushie|plushies")
+	rule("BOPPINBUNNY", SECOND, PAID, BRAIN)
+	rule("BOPPINBUNNY", SECOND, "plush|plushie|plushies")
+	rule("BOPPINBUNNY", FIRST, "plush|plushie|plushies|dlc", BRAIN, "mutation|mutations|mutated")
+	rule("FESTIVE67", "cant|cannot|never|without|no", "mutation|mutations|mutated", "plush|plushie|plushies|dlc", BRAIN)
+
+	local MUT_DATES = {
+		{ "gold", "MAY", "31", "2025", "SATURDAY" }, { "diamond", "MAY", "31", "2025", "SATURDAY" },
+		{ "rainbow", "JUNE", "21", "2025", "SATURDAY" }, { "candy", "JULY", "5", "2025", "SATURDAY" },
+		{ "lava", "JULY", "25", "2025", "FRIDAY" }, { "galaxy", "AUGUST", "23", "2025", "SATURDAY" },
+		{ "yin", "SEPTEMBER", "27", "2025", "SATURDAY" }, { "radioactive", "NOVEMBER", "15", "2025", "SATURDAY" },
+		{ "cursed", "JANUARY", "3", "2026", "SATURDAY" }, { "divine", "FEBRUARY", "21", "2026", "SATURDAY" },
+		{ "cyber", "APRIL", "18", "2026", "SATURDAY" }, { "phantom", "JUNE", "13", "2026", "SATURDAY" },
+		{ "crystal", "JULY", "25", "2026", "SATURDAY" }, { "eclipse", "OCTOBER", "2", "2026", "FRIDAY" },
+	}
+	for _, d in ipairs(MUT_DATES) do
+		eventRules(d[2], d[3], d[4], d[5], d[1], "mutation|mutations")
+	end
+	for _, d in ipairs(MUT_DATES) do
+		rule(d[2] .. d[3] .. d[4], d[1], "mutation|mutations", "released|release|added|made|came|date|out|introduced|created")
+	end
+
+	rule("SPOOKY", "spooky", "lucky", "block|blocks", "rarity|rare")
+	rule("SPOOKY", "spooky", "rarity|rare")
+	rule("SPOOKY", "last|previous|prior|before|2025", "halloween", "rarity|rare")
+	rule("SKULL", "skull", "rarity|rare")
+	rule("SKULL", "this|current|now|2026", "halloween", "rarity|rare")
+	rule("SKULL", "new|newest|latest|recent|newer", "rarity|rarities")
+
+	local CHG = "changed|change|changes|changing|switched|upgraded|promoted|moved|became|went"
+	rule("ANPALIBABEL", CHG, "god|gods", "secret|secrets|rarity", "brainrot|brainrots")
+	rule("JINGLEJINGLESAHUR", CHG, "mythic|mythical|mythics", "secret|secrets|rarity", "brainrot|brainrots")
+	rule("ANPALIBABELJINGLEJINGLESAHUR", CHG, "rarity|secret|secrets", "brainrot|brainrots")
+
+	fact("SPOOKYSCARYSKELETONS", "spooky scary skeletons|spooky scary skeleton")
+	rule("SPOOKYSCARYSKELETONS", "event|events|ltm",
+		"now|current|currently|today|happening|ongoing|active|live|present|going|new|newest|latest")
+
+	-- ==================== EXTERNAL DB INJECTION ====================
+	-- Inject entri dari RiddleDatabase (Aetherion) ke INDEX engine ini.
+	-- Hanya di-inject jika KEY belum ada di INDEX (prioritas engine asli).
+	local ExternalDB = {
+		["1 1 brainrot"] = "155", ["1 1 exist"] = "155", ["1 of 1"] = "1of1",
+		["1 of 1 brainrots"] = "155", ["1 of 1 brainrots exist"] = "155",
+		["1 of 1 exist"] = "155", ["155"] = "155", ["1of1"] = "1of1",
+		["1of1 brainrot"] = "155", ["1of1 brainrots"] = "155", ["1of1 exist"] = "155",
+		["2 brainrots removed"] = "tungtungtungsahurcrocidilopenisini",
+		["2 brainrots reworked"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["2 deleted brainrots"] = "tungtungtungsahurcrocidilopenisini",
+		["2 removed brainrots"] = "tungtungtungsahurcrocidilopenisini",
+		["2013"] = "2013",
+		["2026"] = "2026",
+		["2nd name"] = "brakta", ["2nd name of sammy"] = "brakta",
+		["3 brainrots reworked"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["3 headed"] = "hydraserpent", ["3 headed brainrot"] = "hydraserpent",
+		["3 headed snake"] = "hydraserpent",
+		["admin abuse"] = "jandel", ["admin abuse brainrot"] = "lupaandlipa",
+		["admin abuse trait"] = "sleepy",
+		["age"] = "24",
+		["all brainrots that got removed"] = "tungtungtungsahurcrocidilopenisini",
+		["all brainrots that got reworked"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["all removed brainrots"] = "tungtungtungsahurcrocidilopenisini",
+		["all reworked brainrots"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["antonio"] = "green", ["antonio color"] = "green",
+		["artist"] = "drake",
+		["avatar"] = "legoastronaut",
+		["backrooms"] = "backrooms",
+		["bat"] = "bat", ["baseball bat"] = "bat",
+		["bee lucky block best brainrot"] = "orchidox",
+		["bee lucky block brainrot"] = "orchidox",
+		["beeloco"] = "beeloco",
+		["best admin abuse brainrot"] = "lupaandlipa",
+		["best bee block"] = "orchidox",
+		["best bee brainrot"] = "orchidox",
+		["best bee lucky"] = "orchidox",
+		["best bee lucky block"] = "orchidox",
+		["best bee lucky block brainrot"] = "orchidox",
+		["best brainrot"] = "lupaandlipa",
+		["best brainrot added"] = "hydraserpent",
+		["best brainrot added last saturday"] = "orchidox",
+		["best brainrot added last week"] = "orchidox",
+		["best brainrot from bee lucky block"] = "orchidox",
+		["best brainrot in bee lucky block"] = "orchidox",
+		["best brainrot in game"] = "lupaandlipa",
+		["best brainrot in the game"] = "lupaandlipa",
+		["best brainrot last week"] = "orchidox",
+		["best brainrot released last saturday"] = "orchidox",
+		["best brainrot released last week"] = "orchidox",
+		["best brainrot reskin"] = "sammynitruckini",
+		["best brainrot reskin of sammy"] = "sammynitruckini",
+		["best egg"] = "dragonegg", ["best egg in game"] = "dragonegg",
+		["best fuse brainrot"] = "griffin",
+		["best looking mutation for meowl"] = "cyber",
+		["best looking mutation on meowl"] = "cyber",
+		["best merchant taco"] = "sammynitruckini",
+		["best mutation"] = "crystal", ["best mutation currently"] = "crystal",
+		["best mutation right now"] = "crystal", ["best mutation rn"] = "crystal",
+		["best new brainrot"] = "draculino",
+		["best reskin"] = "sammynitruckini",
+		["best reskin of sammy"] = "sammynitruckini",
+		["best taco"] = "latacocombinasion",
+		["best taco brainrot"] = "latacocombinasion",
+		["best taco merchant"] = "sammynitruckini",
+		["best visual mutation for meowl"] = "cyber",
+		["best visual mutation on meowl"] = "cyber",
+		["better than 1speedkeyboardescape"] = "growagarden",
+		["better than loki"] = "jandel", ["better than lokii"] = "jandel",
+		["birth day"] = "24", ["birth month"] = "february", ["birth year"] = "2002",
+		["birthday"] = "february24", ["birthday month"] = "february",
+		["black"] = "black",
+		["bloodrot"] = "bloodrot",
+		["blue"] = "blue",
+		["blue egg trait"] = "blueegg",
+		["bombardiro trait"] = "bombardiro",
+		["born month"] = "february", ["born year"] = "2002",
+		["brainrot added last saturday"] = "orchidox",
+		["brainrot added last week"] = "orchidox",
+		["brainrot deleted"] = "tungtungtungsahur",
+		["brainrot from cave island"] = "draculino",
+		["brainrot from money ritual"] = "lospuggies",
+		["brainrot get money"] = "lospuggies",
+		["brainrot god lucky block"] = "july2025",
+		["brainrot money ritual"] = "moneymoneypuggy",
+		["brainrot released last saturday"] = "orchidox",
+		["brainrot released last week"] = "orchidox",
+		["brainrot remove"] = "tungtungtungsahur",
+		["brainrot removed"] = "tungtungtungsahur",
+		["brainrot reworked"] = "sammynispyderini",
+		["brainrot that got removed"] = "tungtungtungsahur",
+		["brainrot that got reworked"] = "sammynispyderini",
+		["brainrot that was added last saturday"] = "orchidox",
+		["brainrot that was added last week"] = "orchidox",
+		["brainrot that was removed"] = "tungtungtungsahur",
+		["brainrot that was reworked"] = "sammynispyderini",
+		["brakta"] = "brakta",
+		["brother"] = "samuel", ["brother name"] = "samuel",
+		["brown"] = "brown",
+		["bruno mars"] = "brunomars",
+		["bruno mars concert trait"] = "concert",
+		["bruno mars trait"] = "concert",
+		["bubblegum"] = "bubblegum",
+		["bubblegum machine"] = "bubblegummachine",
+		["bubblegum trait"] = "bubblegum",
+		["bull"] = "bull", ["bull trait"] = "bull",
+		["bunny ears"] = "bunnyears", ["bunny ears trait"] = "bunnyears",
+		["burger"] = "burger",
+		["candy mutation"] = "candy",
+		["capitano moby color"] = "blue",
+		["cat name"] = "nova", ["cats name"] = "nova",
+		["cave island"] = "caveisland",
+		["cheapest"] = "noobinipizzanini",
+		["cheapest brainrot"] = "noobinipizzanini",
+		["chipso and queso"] = "chipsoandqueso",
+		["chocolate trait"] = "chocolate",
+		["co founder"] = "dosmall", ["cofounder"] = "dosmall",
+		["color"] = "blue",
+		["color of draculino"] = "black",
+		["color of griffin"] = "white",
+		["color of headless horseman"] = "black",
+		["color of hydra serpent"] = "green",
+		["color of john pork"] = "pink",
+		["color of meowl"] = "white",
+		["color of my avatar"] = "red",
+		["color of my body skin"] = "yellow",
+		["color of my car"] = "red",
+		["color of my hair"] = "black",
+		["color of my shirt"] = "red",
+		["color of orchidox"] = "purple",
+		["color of spyder elephant"] = "gray",
+		["color of strawberry elephant"] = "red",
+		["comet struck"] = "cometstruck",
+		["comet struck trait"] = "cometstruck",
+		["concert"] = "concert", ["concert trait"] = "concert",
+		["crab rave"] = "crabrave", ["crab rave trait"] = "crabrave",
+		["craft machine"] = "september2025",
+		["crystal mutation"] = "crystal",
+		["cupid fuse"] = "february2026",
+		["cupid machine"] = "february2026",
+		["current ritual"] = "money",
+		["current season"] = "autumn",
+		["cursed"] = "cursed", ["cursed mutation"] = "cursed",
+		["cyber"] = "cyber", ["cyber craft"] = "cybercraft",
+		["cyber craft machine"] = "cybercraft",
+		["cyber mutation"] = "cyber",
+		["cybercraft"] = "cybercraft",
+		["day birthday"] = "24", ["day born"] = "24",
+		["deleted brainrot"] = "tungtungtungsahur",
+		["deleted brainrots"] = "tungtungtungsahurcrocidilopenisini",
+		["diamond strawberry elephant exist"] = "263",
+		["disco"] = "disco",
+		["divine"] = "divine",
+		["divine fuse"] = "divinefuse",
+		["divine fuse machine"] = "divinefuse",
+		["divine mutation"] = "divine",
+		["dog"] = "rocky", ["dog name"] = "rocky",
+		["draculino"] = "draculino", ["draculino color"] = "black",
+		["dragon"] = "dragoncannelloni",
+		["dragon cannelloni color"] = "yellow",
+		["dragon cannelloni egg"] = "dragonegg",
+		["dragonegg"] = "dragonegg",
+		["duels machine"] = "january2026",
+		["easter"] = "easter",
+		["egg incubator"] = "april2026",
+		["emperor"] = "emperor",
+		["enemy"] = "jandel",
+		["extinct trait"] = "extinct",
+		["fav brainrot"] = "meowl",
+		["fav color"] = "blue",
+		["fav food"] = "taco",
+		["fav game"] = "fortnite",
+		["fav mutation"] = "galaxy",
+		["fav mutation of sammy"] = "galaxy",
+		["fav number"] = "67",
+		["fav phone"] = "iphone",
+		["favorite artist"] = "drake",
+		["favorite brainrot"] = "meowl",
+		["favorite color"] = "blue",
+		["favorite food"] = "taco",
+		["favorite fortnite"] = "robabankobby",
+		["favorite game"] = "fortnite",
+		["favorite mutation"] = "galaxy",
+		["favorite number"] = "67",
+		["favorite phone"] = "iphone",
+		["favorite singer"] = "drake",
+		["first bee brainrot"] = "beeloco",
+		["first brainrot"] = "noobinipizzanini",
+		["first brainrot god"] = "tralalerotralala",
+		["first brainrot that got removed"] = "tungtungtungsahur",
+		["first brainrot that was reworked"] = "sammynispyderini",
+		["first craft machine"] = "september2025",
+		["first fuse machine"] = "lafusemachine",
+		["first game"] = "crabgame", ["first game played"] = "crabgame",
+		["first gear"] = "bat",
+		["first god"] = "tralalerotralala",
+		["first item"] = "bat",
+		["first lucky block"] = "july2025",
+		["first machine"] = "rainbowmachine",
+		["first og"] = "strawberryelephant",
+		["first og brainrot"] = "strawberryelephant",
+		["first removed brainrot"] = "tungtungtungsahur",
+		["first reworked brainrot"] = "sammynispyderini",
+		["first ritual"] = "comet",
+		["first secret"] = "lavaccasaturnosaturnita",
+		["first secret brainrot"] = "lavaccasaturnosaturnita",
+		["first snake brainrot"] = "hydraserpent",
+		["first taco brainrot"] = "tipitopitaco",
+		["first taco merchant"] = "sammynitruckini",
+		["first weapon"] = "bat",
+		["flying bee"] = "flyingbee", ["flying bee gear"] = "flyingbee",
+		["food"] = "food",
+		["fortnite"] = "fortnite",
+		["friend youtuber"] = "steak",
+		["fuse"] = "lafusemachine", ["fuse machine"] = "lafusemachine",
+		["fuse machine return"] = "january2026",
+		["fuse return"] = "january2026",
+		["galaxy"] = "galaxy", ["galaxy mutation"] = "galaxy",
+		["garama and madundung color"] = "gray",
+		["gold strawberry elephant exist"] = "565",
+		["granny trait"] = "granny",
+		["gray"] = "gray", ["green"] = "green",
+		["green egg trait"] = "greenegg",
+		["griffin"] = "griffin", ["griffin color"] = "white",
+		["group"] = "brazilianspyder",
+		["group i hate"] = "secretverse",
+		["grow a garden"] = "growagarden",
+		["growagarden"] = "growagarden",
+		["hair"] = "black", ["hair color"] = "black",
+		["halloween"] = "halloween",
+		["halloween fuse"] = "hauntedfuse",
+		["halloween fuse machine"] = "hauntedfuse",
+		["halo trait"] = "halo",
+		["hardest brainrot"] = "spyderelephant",
+		["hardest brainrot to get"] = "spyderelephant",
+		["hated game"] = "growagarden",
+		["hated group"] = "secretverse",
+		["hated person"] = "secretlokii",
+		["hauntedfuse"] = "hauntedfuse",
+		["headless horseman color"] = "black",
+		["highest mutation"] = "crystal",
+		["how many 1 of 1"] = "155",
+		["how many 1 of 1 brainrots"] = "155",
+		["how many 1 of 1 exist"] = "155",
+		["how many base strawberry elephant exist"] = "1277",
+		["how many crystal strawberry elephant exist"] = "1",
+		["how many diamond strawberry elephant exist"] = "263",
+		["how many gold strawberry elephant exist"] = "565",
+		["how many one of one"] = "155",
+		["how many rainbow strawberry elephant exist"] = "87",
+		["how many strawberry elephant exist"] = "2348",
+		["how many strawberry elephants exist"] = "2348",
+		["how much weigh"] = "250",
+		["how old"] = "24",
+		["hydra bunny color"] = "white",
+		["hydra serpent"] = "hydraserpent",
+		["hydra serpent color"] = "green",
+		["hydrabunny"] = "hydrabunny",
+		["hydradragoncannelloni"] = "yellow",
+		["hydraserpent"] = "hydraserpent",
+		["iphone"] = "iphone",
+		["jack o lantern trait"] = "jackolantern",
+		["jandel"] = "jandel",
+		["job ritual"] = "job",
+		["john pork color"] = "pink",
+		["johnpork"] = "johnpork",
+		["la cucaracha"] = "lacucaracha",
+		["la taco combinasion"] = "latacocombinasion",
+		["lacucaracha"] = "lacucaracha",
+		["lafusemachine"] = "lafusemachine",
+		["last craft machine"] = "cybercraft",
+		["last fuse machine"] = "rainbowfuse",
+		["last mutation"] = "crystal",
+		["last name"] = "brakta",
+		["last ritual"] = "money",
+		["last taco brainrot"] = "latacocombinasion",
+		["latacocombinasion"] = "latacocombinasion",
+		["latest base"] = "emperor",
+		["latest brainrot"] = "hydraserpent",
+		["latest craft machine"] = "cybercraft",
+		["latest fuse machine"] = "rainbowfuse",
+		["latest mutation"] = "crystal",
+		["latest ritual"] = "money",
+		["latest snake brainrot"] = "hydraserpent",
+		["lava mutation"] = "lava",
+		["lavaccasaturnosaturnita"] = "lavaccasaturnosaturnita",
+		["least favorite brain"] = "raccoonijandelini",
+		["least favorite brainrot"] = "raccoonijandelini",
+		["least favorite game"] = "growagarden",
+		["least favorite group"] = "secretverse",
+		["least favorite person"] = "secretlokii",
+		["lightning"] = "lightning",
+		["los puggies"] = "lospuggies",
+		["los traders"] = "june2026",
+		["lospuggies"] = "lospuggies",
+		["lucky block"] = "july2025",
+		["lucky matg"] = "secretlokii",
+		["lucky trait"] = "lucky",
+		["making games on roblox"] = "2013",
+		["meowl"] = "meowl", ["meowl color"] = "white",
+		["middle name"] = "brakta",
+		["money"] = "money", ["money ritual"] = "money",
+		["moneymoneypuggy"] = "moneymoneypuggy",
+		["month birthday"] = "february", ["month born"] = "february",
+		["most expensive"] = "spyderelephant",
+		["most expensive item i have"] = "spyderchain",
+		["most expensive taco"] = "latacocombinasion",
+		["most expensive taco merchant"] = "sammynitruckini",
+		["most op brainrot"] = "lupaandlipa",
+		["most op brainrot added last saturday"] = "orchidox",
+		["most op brainrot added last week"] = "orchidox",
+		["my 2nd name"] = "brakta",
+		["my avatar color"] = "red",
+		["my body skin color"] = "yellow",
+		["my car color"] = "red",
+		["my cat"] = "nova", ["my cat name"] = "nova",
+		["my chain"] = "spyderchain",
+		["my dog"] = "rocky", ["my dog name"] = "rocky",
+		["my enemy"] = "jandel",
+		["my fav mutation"] = "galaxy",
+		["my fav number"] = "67",
+		["my favorite game"] = "fortnite",
+		["my favorite mutation"] = "galaxy",
+		["my favorite number"] = "67",
+		["my favorite visual mutation for meowl"] = "cyber",
+		["my full name"] = "sammy",
+		["my hair color"] = "black",
+		["my hated group"] = "secretverse",
+		["my last name"] = "brakta",
+		["my least favorite game"] = "growagarden",
+		["my least favorite group"] = "secretverse",
+		["my least favorite person"] = "secretlokii",
+		["my middle name"] = "brakta",
+		["my name"] = "sammy",
+		["my pants color"] = "red",
+		["my pet"] = "rocky",
+		["my phone"] = "iphone",
+		["my roblox avatar color"] = "red",
+		["my roblox skin color"] = "yellow",
+		["my second name"] = "brakta",
+		["my shirt color"] = "red",
+		["my skin color"] = "yellow",
+		["my spyder"] = "spyderchain",
+		["my surname"] = "brakta",
+		["my username"] = "sammy",
+		["my worst person"] = "secretlokii",
+		["mythical brainrot"] = "hydraserpent",
+		["mythical creature"] = "hydraserpent",
+		["mythical creature brainrot"] = "hydraserpent",
+		["new 3 headed brainrot"] = "hydraserpent",
+		["new base"] = "emperor",
+		["new base skin"] = "1of1",
+		["new bee gear"] = "flyingbee",
+		["new best brainrot"] = "draculino",
+		["new best brainrot in ltm"] = "draculino",
+		["new brainrot"] = "hydraserpent",
+		["new flying bee gear"] = "flyingbee",
+		["new gear"] = "griefshield",
+		["new mythical creature brainrot"] = "hydraserpent",
+		["new op brainrot"] = "draculino",
+		["new ritual"] = "money",
+		["new snake"] = "hydraserpent",
+		["new snake brainrot"] = "hydraserpent",
+		["new three headed brainrot"] = "hydraserpent",
+		["new year 2026 trait"] = "2026",
+		["new year fuse"] = "december2025",
+		["new year machine"] = "december2025",
+		["new years machine"] = "december2025",
+		["newest base"] = "emperor",
+		["newest base skin"] = "1of1",
+		["newest brainrot"] = "hydraserpent",
+		["newest craft machine"] = "cybercraft",
+		["newest fuse machine"] = "rainbowfuse",
+		["newest mutation"] = "crystal",
+		["newest ritual"] = "money",
+		["newest snake brainrot"] = "hydraserpent",
+		["next fuse machine"] = "hauntedfuse",
+		["next halloween fuse"] = "hauntedfuse",
+		["noobinipizzanini"] = "noobinipizzanini",
+		["nyan cat"] = "nyan", ["nyan cat trait"] = "nyan",
+		["nyan trait"] = "nyan",
+		["og fuse machine"] = "january2026",
+		["oldest fuse"] = "lafusemachine",
+		["oldest machine"] = "rainbowmachine",
+		["op brainrot"] = "lupaandlipa",
+		["op brainrot added last saturday"] = "orchidox",
+		["op brainrot added last week"] = "orchidox",
+		["orchideon"] = "orchidox",
+		["orchidox"] = "orchidox", ["orchidox color"] = "purple",
+		["original craft machine"] = "september2025",
+		["original fuse machine"] = "lafusemachine",
+		["original lucky block"] = "july2025",
+		["original machine"] = "rainbowmachine",
+		["os"] = "windows11",
+		["overall favorite mutation"] = "galaxy",
+		["owner name"] = "sammy",
+		["pants color"] = "red",
+		["person hate"] = "secretlokii",
+		["person i hate"] = "secretlokii",
+		["person sammy hates"] = "secretlokii",
+		["pet"] = "rocky", ["pet name"] = "rocky",
+		["phantom mutation"] = "phantom",
+		["phone"] = "iphone",
+		["pink"] = "pink", ["pink egg trait"] = "pinkegg",
+		["polaroidini"] = "polaroidini",
+		["programmer"] = "hasted",
+		["purple"] = "purple",
+		["quesadilla crocodila"] = "quesadillacrocodila",
+		["queso"] = "chipsoandqueso",
+		["radioactive mutation"] = "radioactive",
+		["rain trait"] = "rain",
+		["rainbow fuse"] = "rainbowfuse",
+		["rainbow fuse machine"] = "rainbowfuse",
+		["rainbow machine"] = "rainbowmachine",
+		["rainbow strawberry elephant exist"] = "87",
+		["rainbowfuse"] = "rainbowfuse",
+		["rainbowmachine"] = "rainbowmachine",
+		["rarest base"] = "1of1",
+		["rarest base skin"] = "1of1",
+		["rarest brainrot"] = "spyderelephant",
+		["rarest fuse brainrot"] = "griffin",
+		["real name"] = "sammy",
+		["recent fuse"] = "rainbowfuse",
+		["recent ritual"] = "money",
+		["red"] = "red",
+		["reindeer trait"] = "reindeer",
+		["removed brainrot"] = "tungtungtungsahur",
+		["removed brainrots"] = "tungtungtungsahurcrocidilopenisini",
+		["reskin of sammy"] = "sammynitruckini",
+		["revived fuse machine"] = "january2026",
+		["reward from money ritual"] = "lospuggies",
+		["reworked brainrot"] = "sammynispyderini",
+		["reworked brainrots"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["rip tombstone"] = "riptombstone",
+		["rip tombstone trait"] = "riptombstone",
+		["ritual added today"] = "money",
+		["rng machine"] = "august2026",
+		["roblox skin color"] = "yellow",
+		["rose"] = "rose",
+		["sammy"] = "sammy",
+		["sammy 2nd name"] = "brakta",
+		["sammy avatar color"] = "red",
+		["sammy brainrot"] = "meowl",
+		["sammy cat"] = "nova",
+		["sammy dog"] = "rocky",
+		["sammy enemy"] = "jandel",
+		["sammy fav mutation"] = "galaxy",
+		["sammy fav number"] = "67",
+		["sammy favorite game"] = "fortnite",
+		["sammy favorite mutation"] = "galaxy",
+		["sammy favorite number"] = "67",
+		["sammy first game"] = "crabgame",
+		["sammy hair color"] = "black",
+		["sammy hated group"] = "secretverse",
+		["sammy last name"] = "brakta",
+		["sammy least favorite game"] = "growagarden",
+		["sammy least favorite group"] = "secretverse",
+		["sammy least favorite person"] = "secretlokii",
+		["sammy name"] = "sammy",
+		["sammy number"] = "67",
+		["sammy pet"] = "rocky",
+		["sammy roblox avatar color"] = "red",
+		["sammy second name"] = "brakta",
+		["sammy surname"] = "brakta",
+		["sammy truckini"] = "sammynitruckini",
+		["sammyni spyderini"] = "sammynispyderini",
+		["sammyni truckini"] = "sammynitruckini",
+		["sammynispyderini"] = "sammynispyderini",
+		["sammynispyderiniunclitosamitogattatinonyanino"] = "sammynispyderiniunclitosamitogattatinonyanino",
+		["sammynitruckini"] = "sammynitruckini",
+		["sammys 2nd name"] = "brakta",
+		["sammys cat"] = "nova",
+		["sammys dog"] = "rocky",
+		["sammys fav number"] = "67",
+		["sammys favorite game"] = "fortnite",
+		["sammys favorite mutation"] = "galaxy",
+		["sammys favorite number"] = "67",
+		["sammys hair color"] = "black",
+		["sammys hated group"] = "secretverse",
+		["sammys last name"] = "brakta",
+		["sammys least favorite game"] = "growagarden",
+		["sammys middle name"] = "brakta",
+		["sammys pet"] = "rocky",
+		["sammys second name"] = "brakta",
+		["sammys surname"] = "brakta",
+		["santa fuse"] = "santafuse",
+		["santa hat trait"] = "santahat",
+		["santa machine"] = "santafuse",
+		["santafuse"] = "santafuse",
+		["santas fuse"] = "santafuse",
+		["second brainrot that got removed"] = "crocidilopenisini",
+		["second brainrot that was reworked"] = "unclitosamito",
+		["second fuse machine"] = "witchfuse",
+		["second name"] = "brakta",
+		["second og brainrot"] = "meowl",
+		["second og"] = "meowl",
+		["second removed brainrot"] = "crocidilopenisini",
+		["second reworked brainrot"] = "unclitosamito",
+		["second taco merchant"] = "nachorilla",
+		["secret brainrot"] = "lavaccasaturnosaturnita",
+		["secret loki"] = "secretlokii",
+		["secret lokii"] = "secretlokii",
+		["secret lucky block"] = "july2025",
+		["secretlokii"] = "secretlokii",
+		["secretverse"] = "secretverse",
+		["setup"] = "windows11",
+		["shark trait"] = "shark",
+		["shirt color"] = "red",
+		["silver"] = "silver",
+		["singer"] = "drake",
+		["sixth og brainrot"] = "spyderelephant",
+		["skeleton trait"] = "skeleton",
+		["skibidi toilet color"] = "white",
+		["skibiditoilet"] = "skibiditoilet",
+		["skin color"] = "yellow",
+		["sleepy"] = "sleepy", ["sleepy trait"] = "sleepy",
+		["snake brainrot"] = "hydraserpent",
+		["snow trait"] = "snow",
+		["spain event trait"] = "bull", ["spain trait"] = "bull",
+		["spider"] = "spider",
+		["spyderchain"] = "spyderchain",
+		["spyderelephant"] = "spyderelephant",
+		["started making games on roblox"] = "2013",
+		["steak"] = "steak",
+		["strawberry elephant color"] = "red",
+		["strawberry elephant exist"] = "2348",
+		["strawberry elephants exist"] = "2348",
+		["strawberryelephant"] = "strawberryelephant",
+		["strongest brainrot"] = "lupaandlipa",
+		["studio i hate"] = "secretverse",
+		["summer fuse"] = "summerfuse",
+		["summer fuse machine"] = "summerfuse",
+		["summerfuse"] = "summerfuse",
+		["surname"] = "brakta",
+		["taco"] = "taco",
+		["taco block"] = "september2025",
+		["taco combinasion"] = "latacocombinasion",
+		["taco lucky block"] = "september2025",
+		["taco merchant"] = "tacomerchant",
+		["taco secret"] = "lacucaracha",
+		["taco trait"] = "taco",
+		["taco tuesday lucky block"] = "september2025",
+		["taco tuesday trait"] = "taco",
+		["third brainrot that was reworked"] = "gattatinonyanino",
+		["third fuse machine"] = "santafuse",
+		["third og brainrot"] = "skibiditoilet",
+		["third reworked brainrot"] = "gattatinonyanino",
+		["third taco merchant"] = "tacoturbotacorito",
+		["three headed brainrot"] = "hydraserpent",
+		["three headed snake"] = "hydraserpent",
+		["tipi topi taco"] = "tipitopitaco",
+		["tipitopitaco"] = "tipitopitaco",
+		["today admin abuse brainrot"] = "lupaandlipa",
+		["todays admin abuse brainrot"] = "lupaandlipa",
+		["toilet color"] = "white",
+		["tombstone trait"] = "riptombstone",
+		["top mutation"] = "crystal",
+		["top taco merchant"] = "sammynitruckini",
+		["total strawberry elephant exist"] = "2348",
+		["trade machine"] = "february2026",
+		["trade plaza"] = "june2026",
+		["trading machine"] = "june2026",
+		["trait from admin abuse war"] = "sleepy",
+		["trait from money ritual"] = "rainingmoney",
+		["trait incubator"] = "april2026",
+		["trait money"] = "rainingmoney",
+		["tralalerotralala"] = "tralalerotralala",
+		["tung tung"] = "tungtung",
+		["tung tung sahur"] = "tungtungtungsahur",
+		["tungtungtungsahur"] = "tungtungtungsahur",
+		["tungtungtungsahurcrocidilopenisini"] = "tungtungtungsahurcrocidilopenisini",
+		["two brainrots removed"] = "tungtungtungsahurcrocidilopenisini",
+		["upcoming fuse machine"] = "hauntedfuse",
+		["upcoming halloween fuse"] = "hauntedfuse",
+		["usa"] = "usa",
+		["valentine fuse"] = "february2026",
+		["valentine machine"] = "february2026",
+		["valentine trait"] = "chocolate",
+		["valentines machine"] = "february2026",
+		["valorant"] = "valorant",
+		["visually best mutation for meowl"] = "cyber",
+		["visually best mutation on meowl"] = "cyber",
+		["weigh"] = "250", ["weight"] = "250",
+		["what color is my avatar"] = "red",
+		["what color is my hair"] = "black",
+		["what fuse machine is coming next"] = "hauntedfuse",
+		["what is coming for halloween"] = "hauntedfuse",
+		["what is my favorite game"] = "fortnite",
+		["what is my favorite mutation"] = "galaxy",
+		["what is my favorite number"] = "67",
+		["what is my last name"] = "brakta",
+		["what is next fuse machine"] = "hauntedfuse",
+		["what is the best mutation"] = "crystal",
+		["what season are we in"] = "autumn",
+		["what season is it"] = "autumn",
+		["when did headless horseman release"] = "february2026",
+		["when did meowl release"] = "october2025",
+		["when did orchidox release"] = "august2026",
+		["when did skibidi toilet release"] = "december2025",
+		["when did spyder elephant release"] = "may2026",
+		["when did strawberry elephant release"] = "august2025",
+		["when was galaxy released"] = "august2025",
+		["when was meowl released"] = "october2025",
+		["when was orchidox released"] = "august2026",
+		["when was radioactive released"] = "november2025",
+		["when was skibidi toilet released"] = "december2025",
+		["when was strawberry elephant released"] = "august2025",
+		["which mutation looks best on meowl"] = "cyber",
+		["white"] = "white",
+		["who do i hate"] = "secretlokii",
+		["who do i hate most"] = "secretlokii",
+		["who does sammy hate"] = "secretlokii",
+		["who hate"] = "secretlokii",
+		["who hate most"] = "secretlokii",
+		["who hosted admin abuse"] = "jandel",
+		["who is competitive player at valorant"] = "sammy",
+		["who is my least favorite person"] = "secretlokii",
+		["who is sammy least favorite person"] = "secretlokii",
+		["who is the worst person"] = "secretlokii",
+		["who is worse than jandel"] = "secretlokii",
+		["who is worst person"] = "secretlokii",
+		["yin yang"] = "yinyang", ["yin yang mutation"] = "yinyang",
+		["yinyang"] = "yinyang", ["yinyang mutation"] = "yinyang",
+		["zombie trait"] = "tungtung",
+		-- Tambahan unik dari external DB yang belum ada di engine asli
+		["my age"] = "24",
+		["my birth year"] = "2002",
+		["my cat name"] = "nova",
+		["my boyfriend"] = "steakwad",
+		["do i have tiktok"] = "yes",
+		["do i have youtube"] = "yes",
+	}
+
+	-- Inject ke INDEX (hanya jika belum ada)
+	for rawKey, answer in pairs(ExternalDB) do
+		local toks = tokenize(rawKey)
+		local key = table.concat(toks, " ")
+		if key ~= "" and not INDEX[key] then
+			local f = { answer = answer }
+			INDEX[key] = f
+			KEYS[#KEYS + 1] = { key = key, fact = f }
+		end
+	end
+
+	-- ==================== ENGINE INTERNALS ====================
+	local function matchRule(tk)
+		local present = {}
+		for _, t in ipairs(tk) do present[t] = true end
+		local best, bestN = nil, 0
+		for _, r in ipairs(RULES) do
+			local ok = true
+			for _, set in ipairs(r.groups) do
+				local hit = false
+				for w in pairs(set) do
+					if present[w] then hit = true; break end
+				end
+				if not hit then ok = false; break end
+			end
+			if ok and #r.groups > bestN then best, bestN = r, #r.groups end
+		end
+		if best then return evaluate(best) end
+		return nil
+	end
+
+	local function ordIndex(t)
+		local n, suf = t:match("^(%d+)(%a+)$")
+		if n and (suf == "st" or suf == "nd" or suf == "rd" or suf == "th") then return tonumber(n) end
+		return ORDINALS[t]
+	end
+	local function kindOf(t)
+		local s = t:gsub("s$", "")
+		if SEQUENCES[s] then return s end
+	end
+
+	local function matchSequence(tk, i, j)
+		if j - i > 2 then return nil end
+		local idx, kind, last
+		for p = i, j do
+			local t = tk[p]
+			local o = ordIndex(t)
+			if o then
+				if idx or last then return nil end
+				idx = o
+			elseif LAST_WORDS[t] then
+				if idx or last then return nil end
+				last = true
+			elseif kindOf(t) then
+				if kind then return nil end
+				kind = kindOf(t)
+			elseif t ~= "created" then
+				return nil
+			end
+		end
+		if not kind or not (idx or last) then return nil end
+		local list = SEQUENCES[kind]
+		return idx and list[idx] or list[#list]
+	end
+
+	local function readRepeat(tk, p)
+		local a, b = tk[p], tk[p + 1]
+		if a == "twice" then return 2, 1 end
+		if a == "thrice" then return 3, 1 end
+		if b == "times" or b == "time" then
+			local c = tonumber(a) or NUMBER_WORDS[a]
+			if c and c >= 1 and c <= 10 then return c, 2 end
+		end
+		return 1, 0
+	end
+
+	local function tailRepeat(tk)
+		local n = #tk
+		local c, used = readRepeat(tk, n)
+		if used > 0 then return c end
+		local c2, u2 = readRepeat(tk, n - 1)
+		if u2 == 2 then return c2 end
+		return 1
+	end
+
+	local function lev(a, b, maxD)
+		local la, lb = #a, #b
+		if math.abs(la - lb) > maxD then return maxD + 1 end
+		local prev, cur = {}, {}
+		for j = 0, lb do prev[j] = j end
+		for i = 1, la do
+			cur[0] = i
+			local rowMin = i
+			for j = 1, lb do
+				local v = math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + ((a:byte(i) == b:byte(j)) and 0 or 1))
+				cur[j] = v
+				if v < rowMin then rowMin = v end
+			end
+			if rowMin > maxD then return maxD + 1 end
+			prev, cur = cur, prev
+		end
+		return prev[lb]
+	end
+
+	local MAXSPAN = 6
+
+	local MACHINE_RANKING = { "PHOENIX", "PLANTBROS" }
+
+	local BRAINROT_WORDS = { brainrot = true, brainrots = true, secret = true, secrets = true }
+	local MACHINE_WORDS  = { machine = true, machines = true, fuse = true }
+	local DLC_WORDS      = { dlc = true, plush = true, plushie = true, plushies = true, merch = true, money = true, usd = true }
+	local RANK_FILLER    = {
+		the = true, a = true, my = true, best = true, top = true, highest = true,
+		rarest = true, strongest = true, richest = true, number = true, no = true,
+		rank = true, ranked = true, tier = true,
+	}
+
+	local function rankOf(t)
+		local o = ordIndex(t)
+		if o then return o end
+		if t:match("^%d+$") then return tonumber(t) end
+		return NUMBER_WORDS[t]
+	end
+
+	local function matchRanked(tk)
+		local hasMachine, hasBlock = false, false
+		for _, t in ipairs(tk) do
+			if DLC_WORDS[t] then return nil end
+			if MACHINE_WORDS[t] then hasMachine = true end
+			if BLOCK_WORDS[t] then hasBlock = true end
+		end
+
+		for p, t in ipairs(tk) do
+			if BRAINROT_WORDS[t] then
+				local rank
+				for q = p - 1, math.max(1, p - 4), -1 do
+					local w = tk[q]
+					rank = rankOf(w)
+					if rank then break end
+					if not RANK_FILLER[w] then break end
+				end
+				if not rank then
+					local k = p + 1
+					if tk[k] == "number" or tk[k] == "no" then k = k + 1 end
+					local r = tk[k] and rankOf(tk[k])
+					if r and tk[k + 1] ~= "time" and tk[k + 1] ~= "times" then rank = r end
+				end
+				if rank and rank <= 20 then
+					if rank == 1 and not hasMachine and not hasBlock then return nil end
+					local list = hasBlock and LUCKY_RANKING or MACHINE_RANKING
+					return list[rank] or false
+				end
+			end
+		end
+		return nil
+	end
+
+	local function solveClause(text)
+		local tk = tokenize(text)
+		local n = #tk
+		if n == 0 then return nil end
+
+		local ranked = matchRanked(tk)
+		if ranked == false then return nil end
+		if ranked then return string.rep(ranked, tailRepeat(tk)) end
+
+		local ruled = matchRule(tk)
+		if ruled then return string.rep(ruled, tailRepeat(tk)) end
+
+		local out, i = {}, 1
+		while i <= n do
+			local matched = false
+			for j = math.min(n, i + MAXSPAN - 1), i, -1 do
+				local f = INDEX[table.concat(tk, " ", i, j)]
+				local ans = (f and evaluate(f)) or matchSequence(tk, i, j)
+				if ans then
+					local c, used = readRepeat(tk, j + 1)
+					out[#out + 1] = string.rep(ans, c)
+					i = j + 1 + used
+					matched = true
+					break
+				end
+			end
+			if not matched then i = i + 1 end
+		end
+		if #out > 0 then return table.concat(out) end
+
+		local c, used = readRepeat(tk, n)
+		if used == 0 then
+			local c2, u2 = readRepeat(tk, n - 1)
+			if u2 == 2 then c, used = c2, 2 end
+		end
+		local core = {}
+		for p = 1, n - used do core[p] = tk[p] end
+		local q = table.concat(core, " ")
+		if #q < 3 then return nil end
+
+		local best, bestScore, second = nil, 0, 0
+		for _, e in ipairs(KEYS) do
+			local maxLen = math.max(#q, #e.key)
+			local maxD = math.floor(maxLen * 0.25)
+			local d = lev(q, e.key, maxD)
+			if d <= maxD then
+				local score = 1 - d / maxLen
+				if score > bestScore then
+					if best and best.fact ~= e.fact then second = bestScore end
+					best, bestScore = e, score
+				elseif best and e.fact ~= best.fact and score > second then
+					second = score
+				end
+			end
+		end
+		if best and bestScore >= 0.8 and (bestScore - second) >= 0.05 then
+			return string.rep(evaluate(best.fact), c)
+		end
+		return nil
+	end
+
+	local FIELD_WORDS = { month = true, months = true, day = true, days = true, year = true, years = true, date = true, week = true, weekday = true }
+	local FRAG_FILLER = { ["of"] = true, ["the"] = true, ["and"] = true, ["when"] = true, ["was"] = true, ["is"] = true, ["what"] = true, ["a"] = true, ["in"] = true, ["which"] = true }
+	local function isFragment(text)
+		local hasField = false
+		for _, t in ipairs(tokenize(text)) do
+			if FIELD_WORDS[t] then hasField = true
+			elseif not FRAG_FILLER[t] then return false end
+		end
+		return hasField
+	end
+	local function stripFields(text)
+		local r = {}
+		for _, t in ipairs(tokenize(text)) do
+			if not FIELD_WORDS[t] then r[#r + 1] = t end
+		end
+		return table.concat(r, " ")
+	end
+
+	solveRiddle = function(raw)
+		local text = tostring(raw or "")
+		local clauses = {}
+		for clause in (text .. "+"):gmatch("([^%+,;&|\n]*)[%+,;&|\n]") do
+			if clause:find("%S") then clauses[#clauses + 1] = clause end
+		end
+		local frag = {}
+		for i, c in ipairs(clauses) do frag[i] = isFragment(c) end
+
+		local out = {}
+		for i, clause in ipairs(clauses) do
+			local a
+			if frag[i] then
+				local ctx
+				for j = i + 1, #clauses do if not frag[j] then ctx = clauses[j] break end end
+				if not ctx then
+					for j = i - 1, 1, -1 do if not frag[j] then ctx = clauses[j] break end end
+				end
+				if ctx then
+					a = solveClause(clause .. " " .. stripFields(ctx))
+					if a == solveClause(ctx) then a = nil end
+				end
+			else
+				a = solveClause(clause)
+			end
+			if a then out[#out + 1] = a end
+		end
+		if #out == 0 then return nil end
+		local s = table.concat(out)
+		s = s:upper():gsub("%s+", "")
+		return s
+	end
+end
+
+return solveRiddle
